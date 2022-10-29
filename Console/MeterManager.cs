@@ -459,6 +459,16 @@ namespace Thetis
 
             return updateInterval;
         }
+
+        internal static void Init(Setup setup, PictureBox displayContainer1, PictureBox displayContainer2, string sImagePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void Init(Setup setup, PictureBox displayContainer1, PictureBox displayContainer2)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
         #region clsMeterItem
         private class clsMeterItem

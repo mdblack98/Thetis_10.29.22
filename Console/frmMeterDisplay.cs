@@ -15,6 +15,9 @@ namespace Thetis
     {
         private Console _console;
         private int _rx;
+        private Setup setup;
+        private int v;
+
         public frmMeterDisplay(Console c, int rx)
         {
             InitializeComponent();
@@ -28,6 +31,12 @@ namespace Thetis
 
             Common.RestoreForm(this, "MeterDisplay_" + _rx.ToString(), true);
             Common.ForceFormOnScreen(this);
+        }
+
+        public frmMeterDisplay(Setup setup, int v)
+        {
+            this.setup = setup;
+            this.v = v;
         }
 
         private void frmMeterDisplay_FormClosing(object sender, FormClosingEventArgs e)

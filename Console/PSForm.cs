@@ -844,18 +844,21 @@ namespace Thetis
         }
 
         private void chkAmpV_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkAmpV.Checked == true)
-                if (ampv == null || (ampv != null && ampv.IsDisposed))
-                {
-                    _dismissAmpv = false;
-                    ampvThread = new Thread(RunAmpv);
-                    ampvThread.SetApartmentState(ApartmentState.STA);
-                    ampvThread.Name = "Ampv Thread";
-                    ampvThread.Start();
-                }
+        {                 
+               if (chkAmpV.Checked == true)
+                    if (ampv == null || (ampv != null && ampv.IsDisposed))
+                    {
+                        _dismissAmpv = false;
+                        ampvThread = new Thread(RunAmpv);
+                        ampvThread.SetApartmentState(ApartmentState.STA);
+                        ampvThread.Name = "Ampv Thread";
+                        ampvThread.Start();
+                    }
+
             if (chkAmpV.Checked == false)
-                _dismissAmpv = true;
+                    {
+                        _dismissAmpv = true;
+                    }            
         }        
     }
 

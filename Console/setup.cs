@@ -29,25 +29,24 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Thetis
 {
+    using RawInput_dll;
     using System;
     using System.Collections;
+    using System.ComponentModel;
     using System.Data;
     using System.Diagnostics;
     using System.Drawing;
-    using System.ComponentModel;
-    using System.Threading;
-    using System.Windows.Forms;
-    using System.Text;
     using System.IO;
     using System.IO.Ports;
-    using RawInput_dll;
     using System.Net;
-    using System.Net.Sockets;
+    using System.Runtime.Remoting.Messaging;
+    using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows.Forms;
     public partial class Setup : Form
     {
         private const string s_DEFAULT_GRADIENT = "9|1|0.000|-1509884160|1|0.339|-1493237760|1|0.234|-1509884160|1|0.294|-1493211648|0|0.669|-1493237760|0|0.159|-1|0|0.881|-65536|0|0.125|-32704|1|1.000|-1493237760|";
@@ -312,6 +311,10 @@ namespace Thetis
 
             RefreshSkinList(); //moved down the initialisation order, so we at least know if we are gdi or dx, only build the list
 
+            //wd5y
+            RefreshMtrSkinList();
+            //wd5y
+
             //display defaults
             chkVSyncDX.Enabled = true;
             //chkLegacyDXBuffers_CheckedChanged(this, EventArgs.Empty);
@@ -324,6 +327,9 @@ namespace Thetis
             getOptions();
 
             selectSkin();
+            //wd5y
+            selectMtrSkin();
+            //wd5y
 
             // display setup
             console.SetupDisplayEngine(false); //MW0LGE_21k9
@@ -1035,6 +1041,63 @@ namespace Thetis
             else if (comboAppSkin.Items.Contains(skin))
                 comboAppSkin.Text = skin;
             else comboAppSkin.Text = "IK3VIG Special";
+        }
+
+        private void RefreshMtrSkinList()
+        {
+            comboMtrSkin.Items.Clear();
+            string path = ".\\Meters\\";
+            if (Directory.Exists(path))
+                path = ".\\Meters\\";
+            else
+                path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                    "\\OpenHPSDR\\Meters";
+
+            if (!Directory.Exists(path))
+            {
+                MessageBox.Show("The console presentation files (Meter Skins) were not found.\n" +
+                    "Appearance will suffer until this is rectified.\n",
+                    "Meter Skins files not found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, Common.MB_TOPMOST); //MW0LGE_[2.9.0.7]);
+                return;
+            }
+
+            foreach (string d in Directory.GetDirectories(path))
+            {
+                string s = d.Substring(d.LastIndexOf("\\") + 1);
+                if (!s.StartsWith("."))
+                    comboMtrSkin.Items.Add(d.Substring(d.LastIndexOf("\\") + 1));
+            }
+
+            if (comboMtrSkin.Items.Count == 0)
+            {
+                MessageBox.Show("The console presentation files (Meter Skins) were not found.\n" +
+                    "Appearance will suffer until this is rectified.\n",
+                    "Meter Skins files not found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, Common.MB_TOPMOST); //MW0LGE_[2.9.0.7]);
+                return;
+            }
+        }
+        private void selectMtrSkin()
+        {
+            string skin = comboMtrSkin.Text;
+
+            if (skin == "")
+            {
+                //if (comboAppSkin.Items.Contains("Default"))
+                //    comboAppSkin.Text = "Default";
+                //else
+                //    comboAppSkin.Text = "IK3VIG Special"; //"OpenHPSDR-Gray";
+                if (comboMtrSkin.Items.Contains("Anan-SDR"))
+                    comboMtrSkin.Text = "Anan-SDR";
+                else
+                    comboMtrSkin.Text = "Anan-7000"; //"Anan-7000";
+            }
+            else if (comboMtrSkin.Items.Contains(skin))
+                comboMtrSkin.Text = skin;
+            else comboMtrSkin.Text = "Anan-SDR";
         }
 
         private void GetHosts()
@@ -2169,6 +2232,7 @@ namespace Thetis
             udDSPNBLead_ValueChanged(this, e);
             udDSPNBLag_ValueChanged(this, e);
             comboMeterType_SelectedIndexChanged(this, e);
+            comboMtrSkin_SelectedIndexChanged(this, e);
             comboAppSkin_SelectedIndexChanged(this, e);
             chkDisablePicDisplayBackgroundImage_CheckedChanged(this, e);
 
@@ -24995,7 +25059,8 @@ namespace Thetis
             }
         }
 
-        private Band _adjustingBand = Band.FIRST;
+        private Band _adjustingBand = Band.FIRST;       
+
         private void nudAdjustGain_ValueChanged(object sender, EventArgs e)
         {
             if (_bIgnoreNUDAdjustUpdate || initializing || _PAProfiles == null) return;
@@ -25139,15 +25204,37 @@ namespace Thetis
         }       
 
         private void chkPSLinWin_CheckedChanged(object sender, EventArgs e)
+        {            
+                if (chkPSLinWin.Checked == true)
+                {
+                    console.psform.SetupForm();//EventArgs.Empty); //MW0LGE_21k9d (rc3) //MW0LGE_[2.9.0.7]
+                    console.psform.Show();
+                    console.psform.Focus();
+                }           
+
+                if (chkPSLinWin.Checked == false)
+                {
+                    console.psform.Hide();
+                }               
+        }
+        
+        public void comboMtrSkin_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (chkPSLinWin.Checked == true)
-                console.psform.SetupForm();//EventArgs.Empty); //MW0LGE_21k9d (rc3) //MW0LGE_[2.9.0.7]
-                console.psform.Show();
-                console.psform.Focus();
-            if (chkPSLinWin.Checked == false)
-                console.psform.Hide();
-        }       
+            if (initializing) return;  // prevents call on getoptions, need to force call after options loaded MW0LGE 
+
+            string path = ".\\Meters\\";
+            if (Directory.Exists(path + comboMtrSkin.Text))
+                console.CurrentMtrSkin = comboMtrSkin.Text;
+
+            else
+
+            path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\OpenHPSDR\\Meters\\";            
+            if (Directory.Exists(path + comboMtrSkin.Text))           
+            console.CurrentMtrSkin = comboMtrSkin.Text;            
+        }
     }
+
+    
 
     #region PADeviceInfo Helper Class
 

@@ -330,7 +330,7 @@
             this.tpOptions2 = new System.Windows.Forms.TabPage();
             this.groupBoxTS28 = new System.Windows.Forms.GroupBoxTS();
             this.chkPSLinWin = new System.Windows.Forms.CheckBoxTS();
-            this.groupBoxTS27 = new System.Windows.Forms.GroupBoxTS();            
+            this.groupBoxTS27 = new System.Windows.Forms.GroupBoxTS();
             this.groupBoxTS26 = new System.Windows.Forms.GroupBoxTS();
             this.labelTS157 = new System.Windows.Forms.LabelTS();
             this.labelTS156 = new System.Windows.Forms.LabelTS();
@@ -2870,6 +2870,8 @@
             this.clrbtnPeakText = new Thetis.ColorButton();
             this.lblPeakText = new System.Windows.Forms.LabelTS();
             this.tpAppearanceMeter = new System.Windows.Forms.TabPage();
+            this.grpMtrSkin = new System.Windows.Forms.GroupBoxTS();
+            this.comboMtrSkin = new System.Windows.Forms.ComboBoxTS();
             this.groupBoxTS14 = new System.Windows.Forms.GroupBoxTS();
             this.tbSignalHistoryAlpha = new System.Windows.Forms.TrackBarTS();
             this.clrbtnSignalHistoryColour = new Thetis.ColorButton();
@@ -3410,7 +3412,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.udOptClickTuneOffsetDIGU)).BeginInit();
             this.tpOptions2.SuspendLayout();
             this.groupBoxTS28.SuspendLayout();
-            this.groupBoxTS27.SuspendLayout();
             this.groupBoxTS26.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudNFshift)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNFsensitivity)).BeginInit();
@@ -4077,6 +4078,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.udDisplayLineWidth)).BeginInit();
             this.grpDisplayPeakCursor.SuspendLayout();
             this.tpAppearanceMeter.SuspendLayout();
+            this.grpMtrSkin.SuspendLayout();
             this.groupBoxTS14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbSignalHistoryAlpha)).BeginInit();
             this.grpMeterEdge.SuspendLayout();
@@ -8624,7 +8626,15 @@
             this.chkPSLinWin.Text = "Show PS Main Form At Startup.";
             this.toolTip1.SetToolTip(this.chkPSLinWin, "Use an outlined cross for the mouse cursor if it is flickering/vanishing");
             this.chkPSLinWin.UseVisualStyleBackColor = true;
-            this.chkPSLinWin.CheckedChanged += new System.EventHandler(this.chkPSLinWin_CheckedChanged);                     
+            this.chkPSLinWin.CheckedChanged += new System.EventHandler(this.chkPSLinWin_CheckedChanged);
+            // 
+            // groupBoxTS27
+            // 
+            this.groupBoxTS27.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxTS27.Name = "groupBoxTS27";
+            this.groupBoxTS27.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxTS27.TabIndex = 39;
+            this.groupBoxTS27.TabStop = false;
             // 
             // groupBoxTS26
             // 
@@ -46416,6 +46426,7 @@
             // tpAppearanceMeter
             // 
             this.tpAppearanceMeter.BackColor = System.Drawing.SystemColors.Control;
+            this.tpAppearanceMeter.Controls.Add(this.grpMtrSkin);
             this.tpAppearanceMeter.Controls.Add(this.groupBoxTS14);
             this.tpAppearanceMeter.Controls.Add(this.labelTS2);
             this.tpAppearanceMeter.Controls.Add(this.clrbtnMeterDigBackground);
@@ -46430,6 +46441,26 @@
             this.tpAppearanceMeter.Size = new System.Drawing.Size(724, 410);
             this.tpAppearanceMeter.TabIndex = 2;
             this.tpAppearanceMeter.Text = "Meter";
+            // 
+            // grpMtrSkin
+            // 
+            this.grpMtrSkin.Controls.Add(this.comboMtrSkin);
+            this.grpMtrSkin.Location = new System.Drawing.Point(19, 158);
+            this.grpMtrSkin.Name = "grpMtrSkin";
+            this.grpMtrSkin.Size = new System.Drawing.Size(141, 50);
+            this.grpMtrSkin.TabIndex = 86;
+            this.grpMtrSkin.TabStop = false;
+            this.grpMtrSkin.Text = "Meter_2 Skin At Startup";
+            // 
+            // comboMtrSkin
+            // 
+            this.comboMtrSkin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMtrSkin.FormattingEnabled = true;
+            this.comboMtrSkin.Location = new System.Drawing.Point(8, 19);
+            this.comboMtrSkin.Name = "comboMtrSkin";
+            this.comboMtrSkin.Size = new System.Drawing.Size(116, 21);
+            this.comboMtrSkin.TabIndex = 0;
+            this.comboMtrSkin.SelectedIndexChanged += new System.EventHandler(this.comboMtrSkin_SelectedIndexChanged);
             // 
             // groupBoxTS14
             // 
@@ -52908,7 +52939,6 @@
             this.tpOptions2.ResumeLayout(false);
             this.groupBoxTS28.ResumeLayout(false);
             this.groupBoxTS28.PerformLayout();
-            this.groupBoxTS27.ResumeLayout(false);
             this.groupBoxTS26.ResumeLayout(false);
             this.groupBoxTS26.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudNFshift)).EndInit();
@@ -53700,6 +53730,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.udDisplayLineWidth)).EndInit();
             this.grpDisplayPeakCursor.ResumeLayout(false);
             this.tpAppearanceMeter.ResumeLayout(false);
+            this.grpMtrSkin.ResumeLayout(false);
             this.groupBoxTS14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tbSignalHistoryAlpha)).EndInit();
             this.grpMeterEdge.ResumeLayout(false);
@@ -57167,6 +57198,8 @@
         public ComboBoxTS comboAudioBuffer2;
         public ComboBoxTS comboAudioBuffer3;
         private GroupBoxTS groupBoxTS28;
-        private CheckBoxTS chkPSLinWin;        
+        private CheckBoxTS chkPSLinWin;
+        private GroupBoxTS grpMtrSkin;
+        public ComboBoxTS comboMtrSkin;
     }
 }

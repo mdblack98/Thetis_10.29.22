@@ -287,7 +287,6 @@
         private RadioButtonTS radDisplayZoom4x;
         private RadioButtonTS radDisplayZoom2x;
         private RadioButtonTS radDisplayZoom1x;
-        private CheckBoxTS chkFWCATUBypass;
         private CheckBoxTS chkFWCATU;
         private CheckBoxTS chkMicMute;
         private CheckBoxTS chkMUT;
@@ -854,6 +853,8 @@
             this.MTRStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RX1MetertoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RX2MetertoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RX1HometoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RX2HometoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.picRX2Squelch = new System.Windows.Forms.PictureBox();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.toolStripDropDownButton_ScreenSize = new System.Windows.Forms.ToolStripDropDownButton();
@@ -4885,7 +4886,9 @@
             // 
             this.MTRStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RX1MetertoolStripMenuItem,
-            this.RX2MetertoolStripMenuItem});
+            this.RX2MetertoolStripMenuItem,
+            this.RX1HometoolStripMenuItem,
+            this.RX2HometoolStripMenuItem});
             this.MTRStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.MTRStripMenuItem.Name = "MTRStripMenuItem";
             resources.ApplyResources(this.MTRStripMenuItem, "MTRStripMenuItem");
@@ -4903,6 +4906,18 @@
             this.RX2MetertoolStripMenuItem.Name = "RX2MetertoolStripMenuItem";
             resources.ApplyResources(this.RX2MetertoolStripMenuItem, "RX2MetertoolStripMenuItem");
             this.RX2MetertoolStripMenuItem.Click += new System.EventHandler(this.RX2MetertoolStripMenuItem_Click);
+            // 
+            // RX1HometoolStripMenuItem
+            // 
+            this.RX1HometoolStripMenuItem.Name = "RX1HometoolStripMenuItem";
+            resources.ApplyResources(this.RX1HometoolStripMenuItem, "RX1HometoolStripMenuItem");
+            this.RX1HometoolStripMenuItem.Click += new System.EventHandler(this.RX1HometoolStripMenuItem_Click);
+            // 
+            // RX2HometoolStripMenuItem
+            // 
+            this.RX2HometoolStripMenuItem.Name = "RX2HometoolStripMenuItem";
+            resources.ApplyResources(this.RX2HometoolStripMenuItem, "RX2HometoolStripMenuItem");
+            this.RX2HometoolStripMenuItem.Click += new System.EventHandler(this.RX2HometoolStripMenuItem_Click);
             // 
             // picRX2Squelch
             // 
@@ -7696,5 +7711,8 @@
         private ToolStripMenuItem MTRStripMenuItem;
         private ToolStripMenuItem RX2MetertoolStripMenuItem;
         private ToolStripMenuItem RX1MetertoolStripMenuItem;
+        public CheckBoxTS chkFWCATUBypass;
+        private ToolStripMenuItem RX1HometoolStripMenuItem;
+        private ToolStripMenuItem RX2HometoolStripMenuItem;
     }
 }

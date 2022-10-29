@@ -67,12 +67,16 @@ namespace Thetis
     {
         //MULTIMETERS MW0LGE [2.9.0.7]
         //just so that we can use this without them. Will eventually be removed
-        private const bool USE_MULTIMETERS2 = true;
+        public const bool USE_MULTIMETERS2 = true;        
         //
 
         private const bool ENABLE_DB_FORCE_UPDATE = true;
 
         public const int MAX_FPS = 144;
+
+        //wd5y
+        public string CurrentMtrSkin;       
+        //wd5y
 
         #region Variable Declarations
         // ======================================================
@@ -1972,9 +1976,19 @@ namespace Thetis
             //--
 
             initialiseRawInput(); // MW0LGE
+            //wd5y            
+            {
+                grpMultimeter.Location = new Point(1743, 24);
+                grpMultimeter.Size = (Size)new Point(172, 88);
+                txtMultiText.Location = new Point(8, 16);
+                txtMultiText.Size = (Size)new Point(157, 35);
+                picMultiMeterDigital.Location = new Point(8, 52);
+                picMultiMeterDigital.Size = (Size)new Point(157, 30);
+            }
+            //wd5y
 
             // MW0LGE_[2.9.0.7] setup the multi meter
-            if (USE_MULTIMETERS2)
+            if (USE_MULTIMETERS2)           
             {
                 _RX1MeterValues = new Dictionary<Reading, float>();
                 _RX2MeterValues = new Dictionary<Reading, float>();
@@ -1986,15 +2000,18 @@ namespace Thetis
 
                 _frmRX1Meter = new frmMeterDisplay(this, 1);
                 _frmRX2Meter = new frmMeterDisplay(this, 2);
-               
-                string sImagePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\OpenHPSDR\\Meters";
-                MeterManager.Init(this, ucDockedMeterRX1.DisplayContainer, ucDockedMeterRX2.DisplayContainer, sImagePath);
 
+                //wd5y
+                string CurrentMtrSkin1 = CurrentMtrSkin;
+                //wd5y
+
+                string sImagePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\OpenHPSDR\\Meters\\" + CurrentMtrSkin1;
+                MeterManager.Init(this, ucDockedMeterRX1.DisplayContainer, ucDockedMeterRX2.DisplayContainer, sImagePath);
+                
                 if (ucDockedMeterRX1.Floating)
                     setMeterFloating(ucDockedMeterRX1, _frmRX1Meter);
                 else
-                    returnMeterFromFloating(ucDockedMeterRX1, _frmRX1Meter);
-                _frmRX1Meter.TopMost = true;                
+                    returnMeterFromFloating(ucDockedMeterRX1, _frmRX1Meter);                                
                 
                     if (ucDockedMeterRX2.Floating)
                         setMeterFloating(ucDockedMeterRX2, _frmRX2Meter);
@@ -2003,6 +2020,8 @@ namespace Thetis
                     
                 if (RX2Enabled == false)
                     _frmRX2Meter.Hide();
+
+                _frmRX1Meter.TopMost = true;
                 _frmRX2Meter.TopMost = true;
             }                        
             return;            
@@ -30254,7 +30273,7 @@ namespace Thetis
                 }
 
                 //multimeter2 MW0LGE_[2.9.0.7]
-                if (USE_MULTIMETERS2)
+                if (USE_MULTIMETERS2)                
                 {
                     if (multimeter2_thread_rx1 == null || !multimeter2_thread_rx1.IsAlive)
                     {
@@ -43570,6 +43589,11 @@ namespace Thetis
 
             RX2Enabled = chkRX2.Checked;
 
+            if (chkRX2.Checked)
+            {
+                RX2MetertoolStripMenuItem.Checked = false;
+            }
+
             if (chkVFOBTX.Checked && chkVAC2.Checked && chkRX2.Checked)
             {
                 ptbVACRXGain.Value = vac2_rx_gain;
@@ -54312,6 +54336,8 @@ namespace Thetis
                 returnMeterFromFloating(ucDockedMeterRX1, _frmRX1Meter);
             else
                 setMeterFloating(ucDockedMeterRX1, _frmRX1Meter);
+
+            _frmRX1Meter.TopMost = true;
         }
         private void ucDockedMeterRX2_FloatingDockedClicked(object sender, EventArgs e)
         {
@@ -54319,6 +54345,8 @@ namespace Thetis
                 returnMeterFromFloating(ucDockedMeterRX2, _frmRX2Meter);
             else
                 setMeterFloating(ucDockedMeterRX2, _frmRX2Meter);
+
+            _frmRX2Meter.TopMost = true;
         }
         private void ucDockedMeterRX1_DockedMoved(object sender, EventArgs e)
         {
@@ -54387,35 +54415,55 @@ namespace Thetis
 
         private void buttonTS2_Click(object sender, EventArgs e)
         {
-            ucDockedMeterRX1.Delta = new Point(0, 0);
-            ucDockedMeterRX1.Location = new Point(0, 0);
-            ucDockedMeterRX1.DockedLocation = new Point(0, 0);
-            ucDockedMeterRX2.Delta = new Point(0, 0);
-            ucDockedMeterRX2.Location = new Point(0, 0);
-            ucDockedMeterRX2.DockedLocation = new Point(0, 0);
+            //ucDockedMeterRX1.Delta = new Point(0, 0);
+            //ucDockedMeterRX1.Location = new Point(0, 0);
+            //ucDockedMeterRX1.DockedLocation = new Point(0, 0);
+           // ucDockedMeterRX2.Delta = new Point(0, 0);
+           // ucDockedMeterRX2.Location = new Point(0, 0);
+            //ucDockedMeterRX2.DockedLocation = new Point(0, 0);
 
-            setPoisitionOfDockedMeter(ucDockedMeterRX1);            
-            setPoisitionOfDockedMeter(ucDockedMeterRX2);            
+           // setPoisitionOfDockedMeter(ucDockedMeterRX1);            
+           // setPoisitionOfDockedMeter(ucDockedMeterRX2);            
         }
 
         private void RX1MetertoolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (RX1MetertoolStripMenuItem.Checked == true)
+        {            
+             if (RX1MetertoolStripMenuItem.Checked == true)
                 _frmRX1Meter.Hide();
-            else
+             else
                 _frmRX1Meter.Show();
 
-            _frmRX1Meter.TopMost = true;            
+             _frmRX1Meter.TopMost = true;            
         }
 
         private void RX2MetertoolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {            
             if (RX2MetertoolStripMenuItem.Checked == true)
-                _frmRX2Meter.Hide();
+               _frmRX2Meter.Hide();
             else
-                _frmRX2Meter.Show();
+                if (rx2_enabled == true)
+                   _frmRX2Meter.Show();
 
-            _frmRX2Meter.TopMost = true;
+            _frmRX2Meter.TopMost = true;                      
+        }
+
+        private void RX1HometoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+                grpMultimeter.Location = new Point(1743, 24);
+                grpMultimeter.Size = (Size)new Point(172, 88);
+                txtMultiText.Location = new Point(8, 16);
+                txtMultiText.Size = (Size)new Point(157, 35);
+                picMultiMeterDigital.Location = new Point(8, 52);
+                picMultiMeterDigital.Size = (Size)new Point(157, 30);
+                _frmRX1Meter.Location = new Point(1512, 23);
+                _frmRX1Meter.Size = (Size)new Point(230, 165);               
+        }
+
+        private void RX2HometoolStripMenuItem_Click(object sender, EventArgs e)
+        {           
+                _frmRX2Meter.Location = new Point(1512, 847);
+                _frmRX2Meter.Size = (Size)new Point(230, 165);              
         }
     }
 
